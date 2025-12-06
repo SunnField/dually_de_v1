@@ -23,6 +23,9 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  posts Post[]
+  categories Category[]
+  savedPosts    String[]   @default([])
 
   @@unique([email])
   @@map("user")
@@ -74,4 +77,36 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Post {
+  id String @id @default(cuid())
+  title String
+  slug String @unique
+  content String
+  imageUrl String
+  views Int @default(0)
+  tags String[]
+  status PostStatus @default(published)
+  userId String 
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+  categoryId String?
+  category Category? @relation(references: [id], fields: [categoryId], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Category{
+  id String @id @default(cuid())
+  name String
+  userId String 
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+  posts Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum PostStatus {
+  published
+  draft
 }
