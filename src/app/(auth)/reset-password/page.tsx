@@ -1,9 +1,7 @@
 import ResetPasswordForm from '@/components/reset-password-form';
+import { requireNoAuth } from '@/lib/auth-utils';
 
-export default function ResetPasswordPage() {
-  return (
-    <div className="flex items-center justify-center w-full h-dvh">
-      <ResetPasswordForm />
-    </div>
-  );
+export default async function ResetPasswordPage() {
+  await requireNoAuth();
+  return <ResetPasswordForm />;
 }

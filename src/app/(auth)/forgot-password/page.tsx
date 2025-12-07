@@ -1,9 +1,7 @@
 import ForgotPasswordForm from '@/components/forgot-password-form';
+import { requireNoAuth } from '@/lib/auth-utils';
 
-export default function ForgotPasswordPage() {
-  return (
-    <div className="flex items-center justify-center w-full h-dvh">
-      <ForgotPasswordForm />
-    </div>
-  );
+export default async function ForgotPasswordPage() {
+  await requireNoAuth();
+  return <ForgotPasswordForm />;
 }
